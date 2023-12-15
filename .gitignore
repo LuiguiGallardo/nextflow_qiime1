@@ -1,0 +1,9 @@
+# rawdata
+rawdata/
+
+# results
+results/
+
+# nextflow files
+.nextflow*
+work/
