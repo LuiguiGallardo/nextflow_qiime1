@@ -7,7 +7,7 @@ params.reads = 'rawdata/*_R{1,2}*.fastq.gz'
 params.outdir = 'results/'
 
 log.info """\
-    R N A S E Q  P I P E L I N E    
+    Pretreatment pipeline  
     ===================================
     reads        : ${params.reads}
     outdir       : ${params.outdir}
@@ -15,14 +15,19 @@ log.info """\
     .stripIndent()
 
 workflow {
-    reads_ch = Channel.fromPath(params.reads)
+    reads = Channel.fromPath(params.reads)
 
-	fastqc(reads_ch)
+	fastqc(reads)
+
+    reads = channel.fromFilePairs( params.reads, checkIfExists: true )
+
+    trimmomaticCrop(reads)
+
 }
 
 // Create fastqc files
 process fastqc {
-    // tag "FASTQC on $read"
+    tag "fastqc on $read"
     publishDir params.outdir
 
     input:
@@ -38,28 +43,22 @@ process fastqc {
     """
 }
 
-// process FASTQC {
-//     tag "FASTQC on $sample_id"
-//     publishDir params.outdir
- 
-//     input:
-//     tuple val(sample_id), path(reads)
- 
-//     output:
-//     path "fastqc_${sample_id}_logs"
- 
-//     script:
-//     """
-//     fastqc "$sample_id" "$reads"
-//     """
-// }
+// trimmomatic headcrop and crop
+process trimmomaticCrop {
+    tag "trimmomaticCrop on $sample_id"
+    publishDir params.outdir
 
+    input:
+    tuple val(sample_id), path(reads)
 
+    output:
+    path "01_trimmomaticCrop/*"
 
-// workflow {
-//     read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists: true )
- 
-//     // INDEX(params.transcriptome)
-//     FASTQC(read_pairs_ch)
-//     // QUANT(INDEX.out, read_pairs_ch)
-// }
+    script:
+    """
+    mkdir 01_trimmomaticCrop/
+    trimmomatic SE -phred33 ${reads[0]} 01_trimmomaticCrop/$sample_id\\_R1_hc17_c210.fastq.gz HEADCROP:17 CROP:210
+    
+    trimmomatic SE -phred33 ${reads[1]} 01_trimmomaticCrop/$sample_id\\_R2_hc21_c210.fastq.gz HEADCROP:21 CROP:210
+    """
+}
