@@ -28,6 +28,8 @@ workflow {
     slidingWindow(fastqJoin.out)
 
     fastqToFasta(slidingWindow.out, params.qiime_fasta_formatter)
+
+    mergeFna(fastqToFasta.out)
 }
 
 // Create fastqc files
@@ -130,17 +132,17 @@ process fastqToFasta {
 }
 
 // Merge fna files
-// process mergeFna {
-//     publishDir "${params.outdir}/05_finalFastaFile", mode: 'copy'
+process mergeFna {
+    publishDir "${params.outdir}/05_finalFastaFile", mode: 'copy'
 
-//     input:
-//     path (reads)
+    input:
+    path (reads)
 
-//     output:
-//     path("allSamplesMerged.fna")
+    output:
+    path("allSamplesMerged.fna")
 
-//     script:
-//     """
-//     cat $reads > allSamplesMerged.fna
-//     """
-// }
+    script:
+    """
+    cat $reads > allSamplesMerged.fna
+    """
+}
