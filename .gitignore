@@ -8,3 +8,5 @@ results/
 # nextflow files
 .nextflow*
 work/
+vann_wt_samples.fna
+subseq_vann_wt_samples.fna

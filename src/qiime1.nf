@@ -3,32 +3,42 @@
 nextflow.enable.dsl = 2
 
 // Define input parameters
-params.reads = '/home/linux/Documents/nextflow_qiiime1/rawdata/allSamples.fna'
-params.outdir = '/home/linux/Documents/nextflow_qiiime1/02_qiime1.9.1_analysis/'
-params.metadata = '/home/linux/Documents/nextflow_qiiime1/rawdata/mapping.txtmertasdjkasd'
+params.reads = "$PWD/subseq_vann_wt_samples.fna"
+params.metadata = "$PWD/metadata.tsv"
+params.outdir = "$PWD/qiime1.9.1_analysis/"
+params.parameters = "$PWD/docs/parameters_3_original.txt"
+params.threads = 8
 
 log.info """\
-    QIIME 1.9.1 pipeline  
+    QIIME 1.9.1 pipeline
     ===================================
     reads   :  ${params.reads}
+    metadata:  ${params.metadata}
     outdir  :  ${params.outdir}
+    parameters:  ${params.parameters}
+    threads: ${params.threads}
     """
     .stripIndent()
 
 workflow {
-    pick_otus(params.reads, params.outdir)
+    reads = Channel.fromPath(params.reads)
+    pick_otus(reads)
 }
 
-// Pick otus
+// Pick closed reference OTUs with GreenGenes 13_8 database
 process pick_otus {
-    tag "pick_otus"
-    publishDir "${params.outdir}/pick_otus", mode: 'copy'
+    tag "pick_closed_reference_otus.py using GreenGenes 13_8 database on $reads"
+    publishDir "${params.outdir}", mode: 'copy'
+
     input:
-    file reads from params.reads
+    path (reads)
+
     output:
-    file 'otus.txt' into otus
+    path "01_pick_closed_gg/*"
+
     script:
     """
-    pick_otus.py -i ${reads} -o otus.txt
+    pick_closed_reference_otus.py -f -a -O ${params.threads} -p ${params.parameters} -i ${reads} -o 01_pick_closed_gg/
     """
 }
+
