@@ -59,19 +59,19 @@ process pick_otus_green_genes {
 
     summarize_taxa.py -i 01_pick_closed_gg/otu_table.biom -o 01_pick_closed_gg/01_sumtax_otu_table --level 2,3,4,5,6,7
     
-    summarize_taxa.py -i 01_pick_closed_gg/otu_table.biom -o 01_pick_closed_gg/02_sumtax_otu_table_0.01 --level 2,3,4,5,6,7
+    summarize_taxa.py -i 01_pick_closed_gg/otu_table_0.01.biom -o 01_pick_closed_gg/02_sumtax_otu_table_0.01 --level 2,3,4,5,6,7
 
-    summarize_taxa.py -i 01_pick_closed_gg/otu_table.biom -o 01_pick_closed_gg/03_sumtax_otu_table_0.005 --level 2,3,4,5,6,7
+    summarize_taxa.py -i 01_pick_closed_gg/otu_table_0.005.biom -o 01_pick_closed_gg/03_sumtax_otu_table_0.005 --level 2,3,4,5,6,7
 
     beta_diversity_through_plots.py --suppress_emperor_plots -i 01_pick_closed_gg/otu_table.biom -o 01_pick_closed_gg/04_bdiv_otu_table -t 01_pick_closed_gg/97_otus.tree -e \$(cat 01_pick_closed_gg/otu_table.txt | grep Min | cut -f 3 -d ' ' | awk '{print \$1 * 0.75}' |cut -f 1 -d . ) -m ${params.metadata}
 
     make_2d_plots.py -i 01_pick_closed_gg/04_bdiv_otu_table/unweighted_unifrac_pc.txt -o 01_pick_closed_gg/04_bdiv_otu_table/plots_unweighted_unifrac_pc -m ${params.metadata}
 
-    beta_diversity_through_plots.py --suppress_emperor_plots -i 01_pick_closed_gg/otu_table.biom -o 01_pick_closed_gg/05_bdiv_otu_table_0.01 -t 01_pick_closed_gg/97_otus.tree -e \$(cat 01_pick_closed_gg/otu_table_0.01.txt | grep Min | cut -f 3 -d ' ' | awk '{print \$1 * 0.75}' |cut -f 1 -d . ) -m ${params.metadata}
+    beta_diversity_through_plots.py --suppress_emperor_plots -i 01_pick_closed_gg/otu_table_0.01.biom -o 01_pick_closed_gg/05_bdiv_otu_table_0.01 -t 01_pick_closed_gg/97_otus.tree -e \$(cat 01_pick_closed_gg/otu_table_0.01.txt | grep Min | cut -f 3 -d ' ' | awk '{print \$1 * 0.75}' |cut -f 1 -d . ) -m ${params.metadata}
     
     make_2d_plots.py -i 01_pick_closed_gg/05_bdiv_otu_table_0.01/unweighted_unifrac_pc.txt -o 01_pick_closed_gg/05_bdiv_otu_table_0.01/plots_unweighted_unifrac_pc -m ${params.metadata}
 
-    beta_diversity_through_plots.py --suppress_emperor_plots -i 01_pick_closed_gg/otu_table.biom -o 01_pick_closed_gg/06_bdiv_otu_table_0.005 -t 01_pick_closed_gg/97_otus.tree -e \$(cat 01_pick_closed_gg/otu_table_0.005.txt | grep Min | cut -f 3 -d ' ' | awk '{print \$1 * 0.75}' |cut -f 1 -d . ) -m ${params.metadata}
+    beta_diversity_through_plots.py --suppress_emperor_plots -i 01_pick_closed_gg/otu_table_0.005.biom -o 01_pick_closed_gg/06_bdiv_otu_table_0.005 -t 01_pick_closed_gg/97_otus.tree -e \$(cat 01_pick_closed_gg/otu_table_0.005.txt | grep Min | cut -f 3 -d ' ' | awk '{print \$1 * 0.75}' |cut -f 1 -d . ) -m ${params.metadata}
 
     make_2d_plots.py -i 01_pick_closed_gg/06_bdiv_otu_table_0.005/unweighted_unifrac_pc.txt -o 01_pick_closed_gg/06_bdiv_otu_table_0.005/plots_unweighted_unifrac_pc -m ${params.metadata}
     """
@@ -108,19 +108,19 @@ process pick_otus_silva {
 
     summarize_taxa.py -i 02_pick_closed_silva/otu_table.biom -o 02_pick_closed_silva/01_sumtax_otu_table --level 2,3,4,5,6,7
     
-    summarize_taxa.py -i 02_pick_closed_silva/otu_table.biom -o 02_pick_closed_silva/02_sumtax_otu_table_0.01 --level 2,3,4,5,6,7
+    summarize_taxa.py -i 02_pick_closed_silva/otu_table_0.01.biom -o 02_pick_closed_silva/02_sumtax_otu_table_0.01 --level 2,3,4,5,6,7
 
-    summarize_taxa.py -i 02_pick_closed_silva/otu_table.biom -o 02_pick_closed_silva/03_sumtax_otu_table_0.005 --level 2,3,4,5,6,7
+    summarize_taxa.py -i 02_pick_closed_silva/otu_table_0.005.biom -o 02_pick_closed_silva/03_sumtax_otu_table_0.005 --level 2,3,4,5,6,7
 
     beta_diversity_through_plots.py --suppress_emperor_plots -i 02_pick_closed_silva/otu_table.biom -o 02_pick_closed_silva/04_bdiv_otu_table -t 97_otus.tre -e \$(cat 02_pick_closed_silva/otu_table.txt | grep Min | cut -f 3 -d ' ' | awk '{print \$1 * 0.75}' |cut -f 1 -d . ) -m ${params.metadata}
 
     make_2d_plots.py -i 02_pick_closed_silva/04_bdiv_otu_table/unweighted_unifrac_pc.txt -o 02_pick_closed_silva/04_bdiv_otu_table/plots_unweighted_unifrac_pc -m ${params.metadata}
 
-    beta_diversity_through_plots.py --suppress_emperor_plots -i 02_pick_closed_silva/otu_table.biom -o 02_pick_closed_silva/05_bdiv_otu_table_0.01 -t 97_otus.tre -e \$(cat 02_pick_closed_silva/otu_table_0.01.txt | grep Min | cut -f 3 -d ' ' | awk '{print \$1 * 0.75}' |cut -f 1 -d . ) -m ${params.metadata}
+    beta_diversity_through_plots.py --suppress_emperor_plots -i 02_pick_closed_silva/otu_table_0.01.biom -o 02_pick_closed_silva/05_bdiv_otu_table_0.01 -t 97_otus.tre -e \$(cat 02_pick_closed_silva/otu_table_0.01.txt | grep Min | cut -f 3 -d ' ' | awk '{print \$1 * 0.75}' |cut -f 1 -d . ) -m ${params.metadata}
 
     make_2d_plots.py -i 02_pick_closed_silva/05_bdiv_otu_table_0.01/unweighted_unifrac_pc.txt -o 02_pick_closed_silva/05_bdiv_otu_table_0.01/plots_unweighted_unifrac_pc -m ${params.metadata}
 
-    beta_diversity_through_plots.py --suppress_emperor_plots -i 02_pick_closed_silva/otu_table.biom -o 02_pick_closed_silva/06_bdiv_otu_table_0.005 -t 97_otus.tre -e \$(cat 02_pick_closed_silva/otu_table_0.005.txt | grep Min | cut -f 3 -d ' ' | awk '{print \$1 * 0.75}' |cut -f 1 -d . ) -m ${params.metadata}
+    beta_diversity_through_plots.py --suppress_emperor_plots -i 02_pick_closed_silva/otu_table_0.005.biom -o 02_pick_closed_silva/06_bdiv_otu_table_0.005 -t 97_otus.tre -e \$(cat 02_pick_closed_silva/otu_table_0.005.txt | grep Min | cut -f 3 -d ' ' | awk '{print \$1 * 0.75}' |cut -f 1 -d . ) -m ${params.metadata}
 
     make_2d_plots.py -i 02_pick_closed_silva/06_bdiv_otu_table_0.005/unweighted_unifrac_pc.txt -o 02_pick_closed_silva/06_bdiv_otu_table_0.005/plots_unweighted_unifrac_pc -m ${params.metadata}
     """
