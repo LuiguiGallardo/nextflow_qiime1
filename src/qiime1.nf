@@ -28,7 +28,7 @@ log.info """\
 
 workflow {
     reads = Channel.fromPath(params.reads)
-    pick_otus_green_genes(reads)
+    // pick_otus_green_genes(reads)
     pick_otus_silva(reads)
 }
 
@@ -45,7 +45,7 @@ process pick_otus_green_genes {
 
     script:
     """
-    pick_closed_reference_otus.py -f -a -O ${params.threads} -p ${params.parameters} -i ${reads} -o 01_pick_closed_gg/
+    pick_closed_reference_otus.py -f -p ${params.parameters} -i ${reads} -o 01_pick_closed_gg/
 
     filter_otus_from_otu_table.py -i 01_pick_closed_gg/otu_table.biom -o 01_pick_closed_gg/otu_table_0.01.biom --min_count_fraction 0.0001
 
@@ -94,7 +94,7 @@ process pick_otus_silva {
     gunzip -c ${params.silva_taxonomy} > taxonomy_7_levels.txt
     gunzip -c ${params.silva_tree} > 97_otus.tre
 
-    pick_closed_reference_otus.py -f -a -O ${params.threads} -p ${params.parameters} -i ${reads} -o 02_pick_closed_silva/ -t taxonomy_7_levels.txt -r silva_132_97_16S.fna
+    pick_closed_reference_otus.py -f -p ${params.parameters} -i ${reads} -o 02_pick_closed_silva/ -t taxonomy_7_levels.txt -r silva_132_97_16S.fna
 
     filter_otus_from_otu_table.py -i 02_pick_closed_silva/otu_table.biom -o 02_pick_closed_silva/otu_table_0.01.biom --min_count_fraction 0.0001
 

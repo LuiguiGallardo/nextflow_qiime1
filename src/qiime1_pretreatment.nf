@@ -12,7 +12,8 @@ log.info """\
     ===================================
     reads   :  ${params.reads}
     outdir  :  ${params.outdir}
-    qiime_fasta_formatter   :  ${params.qiime_fasta_formatter} 
+    qiime_fasta_formatter   :  ${params.qiime_fasta_formatter}
+    ===================================
     """
     .stripIndent()
 
